@@ -1,9 +1,7 @@
-const withOffline = moduleExists('next-offline')
-  ? require('next-offline')
-  : {}
+const withOffline = moduleExists('next-offline') ? require('next-offline') : (config) => config;
 
 const nextConfig = {
-  target: 'serverless',
+  reactStrictMode: true,
   workboxOpts: {
     swDest: 'static/service-worker.js',
     runtimeCaching: [
@@ -24,16 +22,14 @@ const nextConfig = {
       }
     ]
   }
-}
+};
 
-module.exports = moduleExists('next-offline')
-  ? withOffline(nextConfig)
-  : nextConfig
+module.exports = withOffline(nextConfig);
 
-function moduleExists (name) {
+function moduleExists(name) {
   try {
-    return require.resolve(name)
+    return require.resolve(name);
   } catch (error) {
-    return false
+    return false;
   }
 }
